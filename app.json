@@ -1,0 +1,12 @@
+{
+  "name": "blackspy",
+  "displayName": "blackspy",
+  "expo": {
+    "name": "blackspy",
+    "slug": "blackspy",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
