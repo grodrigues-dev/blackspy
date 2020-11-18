@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
 import {
     Image,
     Modal,
@@ -10,15 +11,56 @@ import {
 } from 'react-native';
 
 
- 
-export default class Home extends Component {
+export default function Home({ navigation }) {
 
-    render() {
-        return (
-            <>
-            <Text>Home</Text>
-            <Image source={{uri: `https://i.postimg.cc/V5yCFxnb/116837630-3167047800010743-5649935702060817403-n.jpg`}} style={{width: 100, height: 100}}/>
-            </>
-        )
+    const navegarParaLogin = (opcao) => {
+        navigation.navigate('Login', {
+           cadastro: opcao 
+        })
     }
+
+    return (
+        <View style={styles.container}>
+            <Image source={require('../../assets/logo-blackspy.png')} style={styles.logo} />
+            <View style={styles.containerButtons}>
+                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin('login')}>
+                    <Text style={styles.textoButtons}>Entrar</Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin('cadastro')}>
+                    <Text style={styles.textoButtons}>Cadastrar</Text>
+                </TouchableHighlight>
+            </View>
+        </View>
+    )
+
 }
+
+const styles = StyleSheet.create({
+    container: {
+        height: "100%",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-around",
+        paddingBottom: 35
+    },
+    logo: {
+        width: 300,
+        height: 300,
+        resizeMode: "contain"
+    },
+    buttons: {
+        backgroundColor: "#000",
+        width: 250,
+        height: 30,
+        marginTop: 20, 
+        display: "flex",
+        alignItems: 'center', 
+        justifyContent: "center", 
+        borderRadius: 5
+    },
+    textoButtons: {
+        color: '#fff',
+        fontSize: 18
+    }
+
+})
