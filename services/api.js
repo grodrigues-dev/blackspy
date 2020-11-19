@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://blackspy-1605579865330.azurewebsites.net';
+const BASE_URL = 'https://blackspy.azurewebsites.net';
 
-export function login(body) {
-    return axios.post(`${BASE_URL}/api/usuarios/auth`, body).then(({data}) => {
-        data
-    }).catch(e => {
-        e
-    })
+export function realizarLogin(body) {
+    const response = axios.post(`${BASE_URL}/api/usuarios/auth`, body).catch(e => {
+        return Promise.reject(e);
+    });
+    return response;
 }

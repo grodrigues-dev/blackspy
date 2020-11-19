@@ -15,7 +15,7 @@ export default function Home({ navigation }) {
 
     const navegarParaLogin = (opcao) => {
         navigation.navigate('Login', {
-           cadastro: opcao 
+           primeiroAcesso: opcao 
         })
     }
 
@@ -23,10 +23,10 @@ export default function Home({ navigation }) {
         <View style={styles.container}>
             <Image source={require('../../assets/logo-blackspy.png')} style={styles.logo} />
             <View style={styles.containerButtons}>
-                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin('login')}>
+                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin(false)}>
                     <Text style={styles.textoButtons}>Entrar</Text>
                 </TouchableHighlight>
-                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin('cadastro')}>
+                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin(true)}>
                     <Text style={styles.textoButtons}>Cadastrar</Text>
                 </TouchableHighlight>
             </View>
