@@ -8,3 +8,15 @@ export function realizarLogin(body) {
     });
     return response;
 }
+
+export function getServicos(token) {
+    const response = axios.get(`${BASE_URL}/api/servico/buscarTodos`, {
+        headers: {
+            Authorization: token
+        }
+    }).catch(e => {
+        return Promise.reject(e);
+    });
+    return response;
+}
+
