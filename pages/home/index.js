@@ -26,7 +26,9 @@ export default function Home({ navigation }) {
                 <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin(false)}>
                     <Text style={styles.textoButtons}>Entrar</Text>
                 </TouchableHighlight>
-                <TouchableHighlight style={styles.buttons} onPress={()=>navegarParaLogin(true)}>
+                <TouchableHighlight style={styles.buttons} onPress={()=> 
+                    alert('O cadastro será implementando em versões futuras, Favor acessar com usuario padrão.\n \nlogin: dev \nsenha: fiap')
+                    }>
                     <Text style={styles.textoButtons}>Cadastrar</Text>
                 </TouchableHighlight>
             </View>
