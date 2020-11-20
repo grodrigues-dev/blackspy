@@ -6,6 +6,7 @@ import {
     FlatList,
     Image,
     ImageBackground,
+    Modal,
     StyleSheet,
     ScrollView,
     TouchableHighlight,
@@ -13,9 +14,10 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import moment, { RFC_2822 } from 'moment';
+import moment from 'moment';
 import ImagePicker from 'react-native-image-picker';
 import RNPickerSelect from 'react-native-picker-select';
+import { withNavigation } from 'react-navigation';
 
 import { getServicos } from '../../services/api';
 import Loader from '../../components/Loader';
@@ -23,15 +25,16 @@ import Loader from '../../components/Loader';
 import Camera from '../../assets/camera.png';
 
 const token = AsyncStorage.getItem('token');
-export default class Dashboard extends Component {
+class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             listaAlvos: [],
             loading: true,
             imagem: '',
-            periculosidade: '', 
-            nomeSuspeito: ''
+            periculosidade: '',
+            nomeSuspeito: '', 
+            showModalSair: false
         }
 
     }
@@ -99,13 +102,13 @@ export default class Dashboard extends Component {
         this.setState({
             loading: true
         })
-        setTimeout(()=> {
+        setTimeout(() => {
             const novoSuspeito = {
                 alvo: {
-                    foto: this.state.imagem, 
-                    nome: this.state.nomeSuspeito, 
+                    foto: this.state.imagem,
+                    nome: this.state.nomeSuspeito,
                     nivelPericulosidade: this.state.periculosidade
-                }, 
+                },
                 dataDespacho: new Date().toISOString(),
                 drone: {
                     alias: 'DRO_MNT_02'
@@ -118,20 +121,39 @@ export default class Dashboard extends Component {
                 ]
             });
             this.setState({
-                imagem: '', 
-                nomeSuspeito: '', 
-                periculosidade: '', 
-                loading : false
+                imagem: '',
+                nomeSuspeito: '',
+                periculosidade: '',
+                loading: false
             })
         }, 4000)
     }
 
+    sair = () => {
+        AsyncStorage.clear();
+        this.props.navigation.navigate('Home');
+    }
+
+    closeModalSair = () => {
+        this.setState({
+            showModalSair: false
+        })
+    }
+
+    openModalSair = () => {
+        this.setState({
+            showModalSair: true
+        })
+    }
 
     render() {
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.txtHeader}>BLACKSPY</Text>
+                    <TouchableHighlight onPress={this.openModalSair}>
+                        <Image style={{ width: 25, height: 25 }} source={require('../../assets/sair.png')} />
+                    </TouchableHighlight>
                 </View>
                 <View style={styles.body}>
                     <Text style={styles.titulo}>SUSPEITOS PROCURADOS</Text>
@@ -157,7 +179,7 @@ export default class Dashboard extends Component {
                     />
                     <View style={styles.formulario}>
                         <Text style={styles.tituloForm}>CADASTRAR NOVO ALVO</Text>
-                        <TextInput style={styles.txtInput} value={this.state.nomeSuspeito} onChangeText={e => this.setState({nomeSuspeito: e})} placeholder="Nome do suspeito" />
+                        <TextInput style={styles.txtInput} value={this.state.nomeSuspeito} onChangeText={e => this.setState({ nomeSuspeito: e })} placeholder="Nome do suspeito" />
                         <View style={styles.select}>
                             <RNPickerSelect
                                 onValueChange={(value) => this.setState({ periculosidade: value })}
@@ -180,11 +202,29 @@ export default class Dashboard extends Component {
                         </TouchableHighlight>
                     </View>
                 </View>
+                <Modal 
+                    transparent={true}
+                    animationType={'none'}
+                    visible={this.state.showModalSair}
+                >
+                    <View style={styles.modalBackground}>
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.tituloSair}>Tem certeza que deseja sair?</Text>
+                            <View style={styles.btnSair}>
+                                <Text style={styles.txtSair} onPress={this.sair}>SIM</Text>
+                                <Text style={styles.txtSair} onPress={this.closeModalSair}>NAO</Text>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
                 <Loader showModal={this.state.loading} />
             </ScrollView>
         )
     }
 }
+
+export default withNavigation(Dashboard);
 
 const styles = StyleSheet.create({
     body: {
@@ -208,13 +248,16 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#000',
         width: '100%',
-        alignItems: 'center',
         padding: 3,
-        marginBottom: 15
+        marginBottom: 15,
+        flexDirection: 'row',
+        justifyContent: "flex-end"
     },
     txtHeader: {
         color: '#FFF',
-        fontSize: 18
+        fontSize: 18,
+        width: '90%',
+        textAlign: "center"
     },
     titulo: {
         textAlign: "center",
@@ -272,16 +315,44 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     btnCadastrar: {
-        marginTop: 20, 
-        width: 150, 
-        height: 30, 
+        marginTop: 20,
+        width: 150,
+        height: 30,
         backgroundColor: '#ff0303',
         borderRadius: 5
     },
     txtBtnCadastrar: {
-        color: '#fff', 
-        fontSize: 18, 
+        color: '#fff',
+        fontSize: 18,
         fontWeight: "bold",
         textAlign: "center"
+    },
+    modalBackground: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        backgroundColor: 'rgba(0, 0, 0, 0.90)'
+    },
+    modalContainer: {
+        height: 170,
+        width: 250,
+        borderRadius: 10,
+        padding: 20,
+        backgroundColor: '#fff'
+    },
+    tituloSair: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#000', 
+        marginBottom: 50
+    },
+    btnSair: {
+        flexDirection: 'row', 
+        justifyContent: 'space-around'
+    },
+    txtSair: {
+        color: '#000',
+        fontWeight: 'bold'
     }
 })

@@ -45,14 +45,19 @@ export default function Login({ navigation }) {
         <View style={styles.container}>
             <View style={styles.form}>
                 <Text style={styles.titulo}>{primeiroAcesso ? "Cadastre-se" : "Login"} </Text>
-                <TextInput style={styles.input} autoCapitalize='none' placeholder="Login" value={usuario} onChangeText={(e)=> setUsuario(e)}/>
-                <TextInput style={styles.input} autoCapitalize='none' secureTextEntry placeholder="Senha" value={senha} onChangeText={(e)=> setSenha(e) }/>
+                <TextInput style={styles.input} autoCapitalize='none' placeholder="Login" value={usuario} onChangeText={(e) => setUsuario(e)} />
+                <TextInput style={styles.input} autoCapitalize='none' secureTextEntry placeholder="Senha" value={senha} onChangeText={(e) => setSenha(e)} />
                 <TouchableHighlight style={styles.button} onPress={Logar}>
                     <Text style={styles.textButton}>Entrar</Text>
                 </TouchableHighlight>
                 <Text onPress={voltar} style={styles.textVoltar}>Voltar</Text>
+                <View style={{ marginTop: 15 }}>
+                    <Text style={styles.textoApoio}>*Usuario Padrão:</Text>
+                    <Text style={styles.textoApoio}>   Login: dev</Text>
+                    <Text style={styles.textoApoio}>   Senha: fiap</Text>                 
+                </View>
             </View>
-            <Loader  showModal={loading}/>
+            <Loader showModal={loading} />
         </View>
     )
 }
@@ -65,32 +70,32 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     form: {
-        height: 300,
+        height: 350,
         width: '100%',
         backgroundColor: '#000',
-        alignItems: 'center', 
+        alignItems: 'center',
         padding: 5
-    }, 
+    },
     titulo: {
-        color: "#FFF", 
-        fontSize: 30, 
-    }, 
+        color: "#FFF",
+        fontSize: 30,
+    },
     input: {
         marginTop: 20,
-        backgroundColor: "#fff", 
-        width: "80%", 
-        height: 35, 
-        fontSize: 16, 
-        padding: 0, 
+        backgroundColor: "#fff",
+        width: "80%",
+        height: 35,
+        fontSize: 16,
+        padding: 0,
         paddingLeft: 10
-    }, 
+    },
     button: {
-        marginTop: 25, 
-        borderColor: '#fff', 
-        borderWidth: 2, 
-        borderRadius: 5 ,
+        marginTop: 25,
+        borderColor: '#fff',
+        borderWidth: 2,
+        borderRadius: 5,
         padding: 5,
-        width: 160, 
+        width: 160,
         alignItems: "center",
     },
     textButton: {
@@ -98,9 +103,12 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     textVoltar: {
-        color: '#fff', 
-        borderBottomColor: '#fff', 
+        color: '#fff',
+        borderBottomColor: '#fff',
         borderWidth: 1,
         marginTop: 15
+    },
+    textoApoio: {
+        color: '#fff',
     }
 })
